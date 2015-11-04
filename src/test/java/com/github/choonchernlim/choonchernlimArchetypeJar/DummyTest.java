@@ -1,4 +1,4 @@
-package com.github.choonchernlim.choonchernArchetypeJar;
+package com.github.choonchernlim.choonchernlimArchetypeJar;
 
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;

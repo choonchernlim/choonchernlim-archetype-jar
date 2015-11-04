@@ -501,21 +501,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <!-- Profile to disable JaCoCo code coverage tool -->
-        <profile>
-            <id>no-jacoco</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <inherited>false</inherited>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
 </project>
