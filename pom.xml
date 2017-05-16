@@ -6,33 +6,12 @@
     <parent>
         <groupId>com.github.choonchernlim</groupId>
         <artifactId>spring-boot-ci</artifactId>
-        <version>0.1.0</version>
+        <version>0.2.0</version>
     </parent>
 
     <groupId>com.github.choonchernlim</groupId>
     <artifactId>choonchernlim-archetype-jar</artifactId>
     <version>0.0.0</version>
-
-    <!-- TODO Update SCM info! -->
-    <!--
-    This stub SCM block is needed to prevent `maven-project-info-reports-plugin` from throwing
-    "wrong effective scm url" warnings when generating site (ex: mvn site).
-    -->
-    <scm>
-        <connection>scm:svn:https://server/project/trunk</connection>
-        <developerConnection>scm:svn:https://server/project/trunk</developerConnection>
-        <url>https://server/project/trunk</url>
-    </scm>
-
-    <properties>
-        <java.version>1.8</java.version>
-
-        <groovy-eclipse-compiler.version>2.9.2-01</groovy-eclipse-compiler.version>
-        <groovy-eclipse-batch.version>2.4.3-01</groovy-eclipse-batch.version>
-
-        <!-- TODO LIMC to be removed when upgrading spring-boot-ci to 0.1.1 -->
-        <spock.version>1.1-groovy-2.4</spock.version>
-    </properties>
 
     <dependencies>
         <!--
@@ -65,106 +44,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.groovy</groupId>
-                    <artifactId>groovy-eclipse-compiler</artifactId>
-                    <version>${groovy-eclipse-compiler.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
-        <plugins>
-            <!--
-            Use Groovy compiler.
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <compilerId>groovy-eclipse-compiler</compilerId>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>groovy-eclipse-compiler</artifactId>
-                        <version>${groovy-eclipse-compiler.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>groovy-eclipse-batch</artifactId>
-                        <version>${groovy-eclipse-batch.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-
-            <!--
-            Handle no src/main/java and src/test/java.
-
-            See https://github.com/groovy/groovy-eclipse/wiki/Groovy-Eclipse-Maven-plugin
-            -->
-            <plugin>
-                <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy-eclipse-compiler</artifactId>
-                <extensions>true</extensions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <!--
-                    If these banned dependencies exist, fail the build right away.
-
-                    Xalan, Xerces and Xml-APIs - Known to cause problem when deployed to server. Use the ones
-                    provided by server.
-
-                    Joda Time - Use Java 8's built-in Date and Time API.
-
-                    See http://stackoverflow.com/questions/11677572/dealing-with-xerces-hell-in-java-maven
-                    -->
-                    <execution>
-                        <id>enforce-banned-dependencies</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <fail>true</fail>
-                            <rules>
-                                <bannedDependencies>
-                                    <excludes>
-                                        <exclude>xalan</exclude>
-                                        <exclude>xerces</exclude>
-                                        <exclude>xml-apis</exclude>
-                                        <exclude>joda-time</exclude>
-                                    </excludes>
-                                </bannedDependencies>
-                            </rules>
-                        </configuration>
-                    </execution>
-                    <!--
-                    Ensures everyone is using at least the specified Maven version or later.
-                    -->
-                    <execution>
-                        <id>enforce-maven</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>${maven.version}</version>
-                                </requireMavenVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>
