@@ -9,8 +9,8 @@
 
 set -e
 
-# Must run script with Java 6 to prevent weird errors
-export JAVA_HOME="`/usr/libexec/java_home -v '1.6*'`"
+# Use Java 8
+export JAVA_HOME="`/usr/libexec/java_home -v '1.8*'`"
 
 # Get archetype version from `archetype/archetype.properties`
 ARCHETYPE_VERSION=`awk -F= '/^archetype.version/ { print $2 }' archetype/archetype.properties`
@@ -160,7 +160,8 @@ rsync . ${PROJECT_PATH} -av \
 --exclude="CHANGELOG.md" \
 --exclude=".git/" \
 --exclude=".idea/" \
---exclude="archetype/"
+--exclude="archetype/" \
+--exclude=".DS_Store"
 
 echo '# Read Me' > ${PROJECT_PATH}/README.md
 echo '# Change Log' > ${PROJECT_PATH}/CHANGELOG.md
@@ -173,18 +174,12 @@ echo "Creating Maven archetype from existing project..."
 mvn clean archetype:create-from-project -Darchetype.properties=../archetype/archetype.properties
 display_line
 
-# Pluck out `<parent>...</parent>` from `pom.xml` and replace all line breaks with blank string to prevent `sed`
-# from throwing "unescaped newline inside substitute pattern" error. Then, use xmllint to reformat the file back.
-echo "Adding parent pom to archetype pom..."
-PARENT_POM=`awk '/<parent>/,/<\/parent>/' pom.xml | tr '\n' ' '`
-sed -i '' "s|</modelVersion>|</modelVersion> ${PARENT_POM}|g" "$ARCHETYPE_BASE_PATH/pom.xml"
-export XMLLINT_INDENT="    "
-xmllint --output "$ARCHETYPE_BASE_PATH/pom.xml" --format "$ARCHETYPE_BASE_PATH/pom.xml"
-
 currentPath="${ARCHETYPE_RESOURCES_PATH}/pom.xml"
 replace_string_in_file "${currentPath}" '#' '$symbol_pound'
-replace_string_in_file "${currentPath}" 'com.github.choonchernlim.choonchernlimArchetypeJar' '${package}'
 insert_velocity_escape_variables_in_file "${currentPath}"
+
+currentPath="${ARCHETYPE_RESOURCES_PATH}/src/main/resources/application.yml"
+replace_string_in_file "${currentPath}" 'com.github.choonchernlim.choonchernlimArchetypeJar' '${package}'
 
 find_string_occurence "${ARCHETYPE_RESOURCES_PATH}" 1 '\${version}'
 find_string_occurence "${ARCHETYPE_RESOURCES_PATH}" 0 'choonchernlim-archetype-jar'
