@@ -15,14 +15,14 @@ Groovy-based JAR archetype with Spring Boot and CI integration.
 For example:
 
 ```bash
-mvn archetype:generate 
--DinteractiveMode=false 
--DarchetypeGroupId=com.github.choonchernlim 
--DarchetypeArtifactId=choonchernlim-archetype-jar 
--DarchetypeVersion=0.2.0
--DgroupId=com.github.choonchernlim.testProject 
--DartifactId=testProject 
--Dversion=1.0.0-SNAPSHOT
+mvn archetype:generate \
+    -DinteractiveMode=false \
+    -DarchetypeGroupId=com.github.choonchernlim \
+    -DarchetypeArtifactId=choonchernlim-archetype-jar \
+    -DarchetypeVersion=0.2.0 \
+    -DgroupId=com.github.choonchernlim.testProject \
+    -DartifactId=testProject \
+    -Dversion=1.0.0-SNAPSHOT
 ```
 
 ## Sample Project Structure
