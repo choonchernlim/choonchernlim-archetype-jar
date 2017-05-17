@@ -1,10 +1,10 @@
 ## Update archetype version 
 
-Go to `archetype/archetype.properties`, and change this line:-
+Go to `archetype/pom.xml`, and change this line:-
 
-    archetype.version=X.X.X
+    <version>X.X.X</version>
 
-Go to `archetype/test.sh`, and change this line:-
+Go to `archetype/archetype-test.sh`, and change this line:-
 
     -DarchetypeVersion=X.X.X
 
@@ -16,11 +16,11 @@ In Terminal, navigate to `choonchernlim-archetype-jar` directory:-
 
 If the script is not executable, run this:-
 
-    chmod 0755 ./archetype/build.sh
+    chmod 0755 ./archetype/archetype-build.sh
 
 Execute shell script.
 
-    ./archetype/build.sh 
+    ./archetype/archetype-build.sh 
 
 ## Update CHANGELOG.md
 
