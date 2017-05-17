@@ -1,6 +1,6 @@
 # choonchernlim-archetype-jar
 
-Groovy-based JAR archetype with Spring Boot and CI integration.
+Groovy-based JAR archetype using Spring Boot with the capability of generating static code analysis reports for Continuous Integration servers.
 
 ## Latest Release
 
@@ -24,6 +24,32 @@ mvn archetype:generate \
     -DartifactId=testProject \
     -Dversion=1.0.0-SNAPSHOT
 ```
+
+## Prerequisites
+
+* Java 1.8.
+* Maven 3.3.9.
+
+## Useful Goals
+
+* `mvn clean spring-boot:run` - Executes program.
+
+* `mvn clean test site` - Generates test results and static code analysis reports such as code coverage, CPD, PMD, JDepend, FindBugs, etc.
+
+* `mvn clean package` - Generates the following artifacts:-
+    * `[artifactId]-[version].jar` - Lean JAR to be used as a dependency or be pushed to Nexus.
+    * `[artifactId]-[version]-exec.jar` - Executable fat JAR with all dependencies bundled into it.   
+    * `[artifactId]-[version]-sources.jar` - Project source files.
+
+## Jenkins Integration
+
+* Create a "Freestyle project" job.
+
+* Under "Add build steps, select "Invoke top-level Maven targets".
+    * Goals: `clean test site`
+    * POM: `[project]/pom.xml`
+
+* Configure post-build actions accordingly.
 
 ## Sample Project Structure
 
@@ -61,20 +87,3 @@ If `groupId` is `com.github.choonchernlim.testProject` and `artifactId` is `test
 
 17 directories, 9 files
 ```                    
-
-## Prerequisites
-
-* Java 1.8.
-* Maven 3.3.9.
-
-## Usage
-
-### Jenkins Integration
-
-* Create a "Freestyle project" job.
-
-* Under "Add build steps, select "Invoke top-level Maven targets".
-    * Goals: `clean test site`
-    * POM: `[project]/pom.xml`
-
-* Configure post-build actions accordingly.
