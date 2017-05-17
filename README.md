@@ -1,6 +1,6 @@
 # choonchernlim-archetype-jar
 
-Groovy-based JAR archetype using Spring Boot with the capability of generating static code analysis reports for Continuous Integration servers.
+Groovy-based Maven JAR archetype using Spring Boot with the capability of generating static code analysis reports for Continuous Integration servers.
 
 ## Latest Release
 
