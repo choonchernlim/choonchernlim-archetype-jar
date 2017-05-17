@@ -12,6 +12,8 @@
 
 set -e
 
+clear
+
 # Include common functions
 source archetype/archetype-functions.sh
 
@@ -69,6 +71,16 @@ cd ${PROJECT_PATH}
 echo "Creating Maven archetype from existing project..."
 mvn clean archetype:create-from-project -Darchetype.properties=../archetype/archetype.properties
 display_line
+
+echo "Copy .gitignore..."
+cp "${PROJECT_PATH}/.gitignore" "${ARCHETYPE_RESOURCES_PATH}/.gitignore"
+
+# By default `maven-resources-plugin` excludes .gitignore. Configure it to allow it through
+# See http://stackoverflow.com/questions/7981060/maven-archetype-plugin-doesnt-let-resources-in-archetype-resources-through/37322323#37322323
+echo "Configure maven-resources-plugin to allow .gitignore..."
+currentPath="${ARCHETYPE_BASE_PATH}/pom.xml"
+replace_string_in_file "${currentPath}" '</plugins>' '#/plugins#'
+replace_string_in_file "${currentPath}" '#/plugins#' '<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-resources-plugin</artifactId><configuration><addDefaultExcludes>false</addDefaultExcludes></configuration></plugin></plugins>'
 
 currentPath="${ARCHETYPE_RESOURCES_PATH}/pom.xml"
 insert_velocity_escape_variables_in_file "${currentPath}"

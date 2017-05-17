@@ -100,7 +100,7 @@ replace_string_in_file() {
     # http://backreference.org/2010/02/20/using-different-delimiters-in-sed/
     sed -i '' "s|${fromString}|${toString}|g" "${path}"
 
-    assert_string_matched_count 'Aefore String Replace' "${path}" "${fromString}" false
+    assert_string_matched_count 'Before String Replace' "${path}" "${fromString}" false
     assert_string_matched_count 'After String Replace' "${path}" "${toString}" true
 }
 
