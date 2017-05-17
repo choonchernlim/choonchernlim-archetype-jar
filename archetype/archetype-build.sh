@@ -82,6 +82,13 @@ currentPath="${ARCHETYPE_BASE_PATH}/pom.xml"
 replace_string_in_file "${currentPath}" '</plugins>' '#/plugins#'
 replace_string_in_file "${currentPath}" '#/plugins#' '<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-resources-plugin</artifactId><configuration><addDefaultExcludes>false</addDefaultExcludes></configuration></plugin></plugins>'
 
+replace_string_in_file "${currentPath}" 'https://github.com/choonchernlim/spring-boot-ci/choonchernlim-archetype-jar' 'https://github.com/choonchernlim/choonchernlim-archetype-jar'
+replace_string_in_file "${currentPath}" 'git@github.com:choonchernlim/spring-boot-ci.git/choonchernlim-archetype-jar' 'git@github.com:choonchernlim/choonchernlim-archetype-jar.git'
+
+echo "Format $ARCHETYPE_BASE_PATH/pom.xml..."
+export XMLLINT_INDENT="    "
+xmllint --output "$ARCHETYPE_BASE_PATH/pom.xml" --format "$ARCHETYPE_BASE_PATH/pom.xml"
+
 currentPath="${ARCHETYPE_RESOURCES_PATH}/pom.xml"
 insert_velocity_escape_variables_in_file "${currentPath}"
 
