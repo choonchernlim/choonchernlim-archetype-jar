@@ -34,7 +34,7 @@ mvn archetype:generate \
 
 * `mvn clean spring-boot:run` - Executes program.
 
-* `mvn clean test site` - Generates test results and static code analysis reports such as code coverage, CPD, PMD, JDepend, FindBugs, etc.
+* `mvn clean test site` - Generates test and static code analysis reports.
 
 * `mvn clean package` - Generates the following artifacts:-
     * `[artifactId]-[version].jar` - Lean JAR to be used as a dependency or be pushed to Nexus.
