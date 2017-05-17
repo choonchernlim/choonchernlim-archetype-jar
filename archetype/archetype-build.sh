@@ -34,60 +34,39 @@ ARCHETYPE_RESOURCES_PATH="$ARCHETYPE_BASE_PATH/src/main/resources/archetype-reso
 # ~/.m2 path for previously installed archetype
 ARCHETYPE_LOCAL_REPO_PATH="$HOME/.m2/repository/com/github/choonchernlim/choonchernlim-archetype-jar/$ARCHETYPE_VERSION/"
 
-# Remove all `target` dirs first, if any
+echo "Performing Maven clean..."
 mvn clean
 
-# Recreate temp space
+echo "Recreating temp space..."
 rm -rf ${TMP_PATH}
 mkdir ${TMP_PATH}
 
-# Move archetype/ dir to be sibling of choonchernlim-archetype-jar/ dir so that it won't get included
-# into the archetype itself
-rsync . ${TMP_PATH} -av \
---include="archetype/" \
---include="archetype.properties" \
---include="build.sh" \
---exclude="*" \
+echo "Removing unneeded files for the archetype..."
+rsync . ${PROJECT_PATH} -av     \
+    --exclude="*.iml"           \
+    --exclude="LICENSE"         \
+    --exclude="README.md"       \
+    --exclude="CHANGELOG.md"    \
+    --exclude=".git/"           \
+    --exclude=".idea/"          \
+    --exclude=".DS_Store"
 
-# Remove all unneeded files for the archetype. `archetype/` dir cannot be removed at this point because
-# `mvn archetype:create-from-project` needs a property file that resides in it.
-rsync . ${PROJECT_PATH} -av \
---exclude="*.iml" \
---exclude="LICENSE" \
---exclude="README.md" \
---exclude="CHANGELOG.md" \
---exclude=".git/" \
---exclude=".idea/" \
---exclude="archetype/" \
---exclude=".DS_Store"
-
+echo "Creating README.md and CHANGELOG.md..."
 echo '# Read Me' > ${PROJECT_PATH}/README.md
 echo '# Change Log' > ${PROJECT_PATH}/CHANGELOG.md
 
-# Change dir to the temp space
+echo "Changing dir to ${PROJECT_PATH}..."
 cd ${PROJECT_PATH}
 
-# Create archetype from existing project.
 echo "Creating Maven archetype from existing project..."
-mvn clean archetype:create-from-project -Darchetype.properties=../archetype/archetype.properties
+mvn clean archetype:create-from-project -Darchetype.properties=archetype/archetype.properties
 display_line
 
-echo "Copy .gitignore..."
+echo "Copying ${PROJECT_PATH}/.gitignore to ${ARCHETYPE_RESOURCES_PATH}/.gitignore ..."
 cp "${PROJECT_PATH}/.gitignore" "${ARCHETYPE_RESOURCES_PATH}/.gitignore"
 
-# By default `maven-resources-plugin` excludes .gitignore. Configure it to allow it through
-# See http://stackoverflow.com/questions/7981060/maven-archetype-plugin-doesnt-let-resources-in-archetype-resources-through/37322323#37322323
-echo "Configure maven-resources-plugin to allow .gitignore..."
-currentPath="${ARCHETYPE_BASE_PATH}/pom.xml"
-replace_string_in_file "${currentPath}" '</plugins>' '#/plugins#'
-replace_string_in_file "${currentPath}" '#/plugins#' '<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-resources-plugin</artifactId><configuration><addDefaultExcludes>false</addDefaultExcludes></configuration></plugin></plugins>'
-
-replace_string_in_file "${currentPath}" 'https://github.com/choonchernlim/spring-boot-ci/choonchernlim-archetype-jar' 'https://github.com/choonchernlim/choonchernlim-archetype-jar'
-replace_string_in_file "${currentPath}" 'git@github.com:choonchernlim/spring-boot-ci.git/choonchernlim-archetype-jar' 'git@github.com:choonchernlim/choonchernlim-archetype-jar.git'
-
-echo "Format $ARCHETYPE_BASE_PATH/pom.xml..."
-export XMLLINT_INDENT="    "
-xmllint --output "$ARCHETYPE_BASE_PATH/pom.xml" --format "$ARCHETYPE_BASE_PATH/pom.xml"
+echo "Copying ${PROJECT_PATH}/archetype/pom.xml to ${ARCHETYPE_BASE_PATH}/pom.xml ..."
+cp "${PROJECT_PATH}/archetype/pom.xml" "${ARCHETYPE_BASE_PATH}/pom.xml"
 
 currentPath="${ARCHETYPE_RESOURCES_PATH}/pom.xml"
 insert_velocity_escape_variables_in_file "${currentPath}"
@@ -99,7 +78,7 @@ assert_string_occurrence "${ARCHETYPE_RESOURCES_PATH}" 0 'com.github.choonchernl
 assert_string_occurrence "${ARCHETYPE_RESOURCES_PATH}" 0 'choonchernlimArchetypeJar'
 display_line
 
-echo "Remove existing archetype from local repository..."
+echo "Removing existing archetype from local repository..."
 rm -rf "$ARCHETYPE_LOCAL_REPO_PATH"
 display_line
 
