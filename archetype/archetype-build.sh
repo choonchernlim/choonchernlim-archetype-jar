@@ -68,6 +68,9 @@ cp "${PROJECT_PATH}/.gitignore" "${ARCHETYPE_RESOURCES_PATH}/.gitignore"
 echo "Copying ${PROJECT_PATH}/archetype/pom.xml to ${ARCHETYPE_BASE_PATH}/pom.xml ..."
 cp "${PROJECT_PATH}/archetype/pom.xml" "${ARCHETYPE_BASE_PATH}/pom.xml"
 
+currentPath="${ARCHETYPE_BASE_PATH}/pom.xml"
+replace_string_in_file "${currentPath}" "<version>0.0.0</version>" "<version>${ARCHETYPE_VERSION}</version>"
+
 currentPath="${ARCHETYPE_RESOURCES_PATH}/pom.xml"
 insert_velocity_escape_variables_in_file "${currentPath}"
 

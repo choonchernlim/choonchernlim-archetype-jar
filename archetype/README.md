@@ -1,12 +1,8 @@
 ## Update archetype version 
 
-Go to `archetype/pom.xml`, and change this line:-
+Go to `archetype/archetype.properties`, and change this line:-
 
-    <version>X.X.X</version>
-
-Go to `archetype/archetype-test.sh`, and change this line:-
-
-    -DarchetypeVersion=X.X.X
+    archetype.version=X.X.X
 
 ## Run Build Script
 
