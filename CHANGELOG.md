@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.2.0- 2017-09-27
+## 2.0.0- 2017-09-27
 
 * Enabled Spring Boot.
 * Added `.gitignore` in archetype. 
