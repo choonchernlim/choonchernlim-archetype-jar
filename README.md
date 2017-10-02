@@ -8,7 +8,7 @@ Groovy-based Maven JAR archetype using Spring Boot with the capability of genera
 <dependency>
   <groupId>com.github.choonchernlim</groupId>
   <artifactId>choonchernlim-archetype-jar</artifactId>
-  <version>0.2.0</version>
+  <version>2.0.0</version>
 </dependency>
 ```
 
@@ -19,7 +19,7 @@ mvn archetype:generate \
     -DinteractiveMode=false \
     -DarchetypeGroupId=com.github.choonchernlim \
     -DarchetypeArtifactId=choonchernlim-archetype-jar \
-    -DarchetypeVersion=0.2.0 \
+    -DarchetypeVersion=2.0.0 \
     -DgroupId=com.github.choonchernlim.testProject \
     -DartifactId=testProject \
     -Dversion=1.0.0-SNAPSHOT
